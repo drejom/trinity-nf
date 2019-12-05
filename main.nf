@@ -125,7 +125,7 @@ process rCorrector {
     script:
     
     """
-    run_rcorrector.pl -t ${task.cpus} -1 ${forward_list.join(',')} -2 ${reverse_list.join(',')}
+    run_rcorrector.pl -t ${task.cpus} -1 ${forward_list.join(',')} -2 ${reverse_list.join(',')} > out.log 2>&1
     """
 
 }
