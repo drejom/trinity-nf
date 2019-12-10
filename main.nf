@@ -109,7 +109,7 @@ process fastqc_raw_reads {
 
 process rCorrector {
     tag "all_reads"
-    container "quay.io/biocontainers/rcorrector:1.0.3.1--hdbcaa40_1"
+    container "quay.io/biocontainers/rcorrector:1.0.4--h8b12597_1"
     cpus 20
     memory 40.GB
     publishDir "${params.output}/rCorrector_reads", mode: 'copy'
