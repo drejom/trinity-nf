@@ -120,7 +120,7 @@ process rCorrector {
     file reverse_list from reverse_read_files.toSortedList()
 
     output:
-    set file("*_1.cor.fq.gz"), file("*_2.cor.fq.gz") into correctedReads mode flatten
+    set file("*_R1.cor.fq.gz"), file("*_R2.cor.fq.gz") into correctedReads mode flatten
     
     script:
     
@@ -145,7 +145,7 @@ process FilterUncorrectable {
     set file(read1), file(read2) from correctedReads
 
     output:
-    set val(name), file("*_1*.fq.gz"), file("*_2*.fq.gz") into correctedFilteredReads mode flatten
+    set val(name), file("*_R1.fq.gz"), file("*_R2.fq.gz") into correctedFilteredReads mode flatten
 
     script:
    	name = read1.toString() - ~/(.R1)?(_R1)?(_1)?(_trimmed)?(\.cor)?(\.fq)?(\.fastq)?(\.gz)?$/ 
