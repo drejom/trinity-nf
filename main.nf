@@ -104,6 +104,7 @@ process rCorrector {
     container "quay.io/biocontainers/rcorrector:1.0.4--h8b12597_1"
     cpus 28
     memory 40.GB
+    time = 12.h
     publishDir "${params.output}/rCorrector_reads", mode: 'copy'
 
 
@@ -128,8 +129,8 @@ process rCorrector {
  */
 process FilterUncorrectable {
     tag "$name"
-    cpus 2
-    memory 2.GB
+    cpus 1
+    memory 1.GB
     publishDir "${params.output}/rCorrector_reads_filtered", mode: 'copy'
 
 
