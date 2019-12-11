@@ -143,7 +143,7 @@ process FilterUncorrectable {
    	name = read1.toString() - ~/(.R1)?(_R1)?(_1)?(_trimmed)?(\.cor)?(\.fq)?(\.fastq)?(\.gz)?$/ 
 
         """
-       python $workflow.projectDir/bin/FilterUncorrectabledPEfastq.py -1 $read1 -2 $read2 -s $name
+       python2 $workflow.projectDir/bin/FilterUncorrectabledPEfastq.py -1 $read1 -2 $read2 -s $name
        gzip *.fq
         """
     }
