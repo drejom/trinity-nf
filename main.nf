@@ -272,7 +272,7 @@ process trinity {
     def read2list = reverse.join(',')
     """
     Trinity \\
-      --seqType fq --left $read1list --right $read2list \\
+      --seqType fq --left $read1list --right $read2list --SS_lib_type RF \\
       --max_memory ${task.memory.giga}G --CPU ${task.cpus} --output trinity_out_dir    
       """
 }
