@@ -30,8 +30,6 @@
 log.info "trinity assembly - N F  ~  version 0.1"
 log.info "====================================="
 log.info "name                   : ${params.name}"
-log.info "genome                 : ${params.genome}"
-log.info "bt2 index              : ${params.bt2index}"
 log.info "forward reads          : ${params.forward}"
 log.info "reverse reads          : ${params.reverse}"
 log.info "annotation             : ${params.annotation}"
@@ -43,13 +41,7 @@ log.info "\n"
  * Input parameters validation
  */
 
-genomeFile             = file(params.genome)
 annotationFile         = file(params.annotation)
-bt2_index              = file("${params.bt2index}.fa")
-bt2_indices            = Channel.fromPath( "${params.bt2index}*.bt2" ).toList()
-
-if( !bt2_index.exists() ) exit 1, "Reference genome Bowtie 2 not found: ${params.bt2index}"
-
 
 
 /*
@@ -57,8 +49,6 @@ if( !bt2_index.exists() ) exit 1, "Reference genome Bowtie 2 not found: ${params
  */
 
 if( !annotationFile.exists() ) exit 1, "Missing annotation file: ${annotationFile}"
-if( !genomeFile.exists() ) exit 1, "Missing genome directory: ${genomeFile}"
-
 
 /*
  * Create a channel for read files 
