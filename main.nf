@@ -167,7 +167,7 @@ publishDir "${params.output}/trim_galore", mode: 'copy',
     set val(name), file(read1), file(read2) from correctedFilteredReads
 
     output:
-    set val(name), file("*_1*.fq.gz"), file("*_2*.fq.gz") into filteredCorrectedTrimmedReads mode flatten
+    set val(name), file("*R1.fq.gz"), file("*R2.fq.gz") into filteredCorrectedTrimmedReads mode flatten
     file "*trimming_report.txt" into trimgalore_results
 
 
@@ -251,7 +251,7 @@ process fastqc_cleaned_reads {
  */
 process trinity {
     tag "Assembly"
-    container "trinityrnaseq/trinityrnaseq:2.8.5"
+    container "trinityrnaseq/trinityrnaseq:2.8.6"
     cpus 40
     memory 120.GB
     time = 48.h
