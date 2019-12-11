@@ -137,7 +137,7 @@ process FilterUncorrectable {
     set file(read1), file(read2) from correctedReads
 
     output:
-    set val(name), file("*_R1.fq.gz"), file("*_R2.fq.gz") into correctedFilteredReads mode flatten
+    set val(name), file("unfixrm*R1.fq.gz"), file("unfixrm*R2.fq.gz") into correctedFilteredReads mode flatten
 
     script:
    	name = read1.toString() - ~/(.R1)?(_R1)?(_1)?(_trimmed)?(\.cor)?(\.fq)?(\.fastq)?(\.gz)?$/ 
@@ -206,9 +206,9 @@ process filter_rRNA {
     file bt2_indices
     
     output:
-    set val(name), file("*_paired_unaligned_*_1.fq.gz"), file("*_paired_unaligned_*_2.fq.gz") into cleanReads_fastqc mode flatten
-    set val("pair1"), file("*_paired_unaligned_*_1.fq.gz") into cleanReads_forward
-    set val("pair2"), file("*_paired_unaligned_*_2.fq.gz") into cleanReads_reverse
+    set val(name), file("*_paired_unaligned_*R1.fq.gz"), file("*_paired_unaligned_*R2.fq.gz") into cleanReads_fastqc mode flatten
+    set val("pair1"), file("*_paired_unaligned_*R1.fq.gz") into cleanReads_forward
+    set val("pair2"), file("*_paired_unaligned_*R2.fq.gz") into cleanReads_reverse
 
     script:
     index_base = index.toString() - '.fa'
