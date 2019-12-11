@@ -32,6 +32,7 @@ log.info "====================================="
 log.info "name                   : ${params.name}"
 log.info "forward reads          : ${params.forward}"
 log.info "reverse reads          : ${params.reverse}"
+log.info "bt2 index              : ${params.bt2index}"	
 log.info "annotation             : ${params.annotation}"
 log.info "output                 : ${params.output}"
 log.info "\n"
@@ -42,7 +43,8 @@ log.info "\n"
  */
 
 annotationFile         = file(params.annotation)
-
+bt2_index              = file("${params.bt2index}.fa")	
+bt2_indices            = Channel.fromPath( "${params.bt2index}*.bt2" ).toList()
 
 /*
  * validate input files/
