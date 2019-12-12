@@ -141,11 +141,11 @@ process FilterUncorrectable {
     set val(name), file("un*R1.cor.fq.gz"), file("un*R2.cor.fq.gz") into correctedFilteredReads mode flatten
 
     script:
-   	name = read1.toString() - ~/(.R1)?(_R1)?(_1)?(_trimmed)?(\.cor)?(\.fq)?(\.fastq)?(\.gz)?$/ 
+        name = read1.toString() - ~/(.R1)?(_R1)?(_1)?(_trimmed)?(\.cor)?(\.fq)?(\.fastq)?(\.gz)?$/ 
 
         """
-       python2 $workflow.projectDir/bin/FilterUncorrectabledPEfastq.py -1 $read1 -2 $read2 -s $name
-       gzip *.fq
+        python2 $workflow.projectDir/bin/FilterUncorrectabledPEfastq.py -1 $read1 -2 $read2 -s $name
+        gzip *.fq
         """
     }
 
