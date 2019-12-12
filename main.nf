@@ -156,7 +156,7 @@ process FilterUncorrectable {
 process trim_galore {
     tag "$name"
     container "dukegcb/trim-galore:latest"
-    cpus 2
+    cpus 4
     memory 8.GB
 
 publishDir "${params.output}/trim_galore", mode: 'copy',
@@ -170,16 +170,14 @@ publishDir "${params.output}/trim_galore", mode: 'copy',
     set val(name), file(read1), file(read2) from correctedFilteredReads
 
     output:
-    set val(name), file("*R1.cor_trimmed.fq.gz"), file("*R2.cor_trimmed.fq.gz") into filteredCorrectedTrimmedReads mode flatten
+    set val(name), file("*_val_1.fq.gz"), file("*_val_2.fq.gz") into filteredCorrectedTrimmedReads mode flatten
     file "*trimming_report.txt" into trimgalore_results
 
 
     script:
     
         """
-        trim_galore --paired --fastqc --gzip --length 25 $read1 $read2
-        rename _val_1.fq.gz _trimmed_R1.fq.gz *
-        rename _val_2.fq.gz _trimmed_R2.fq.gz *
+        trim_galore --cores ${task.cpus} --paired --fastqc --gzip --length 25 $read1 $read2
         """
     }
 
