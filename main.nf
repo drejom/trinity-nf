@@ -155,7 +155,7 @@ process FilterUncorrectable {
  */
 process trim_galore {
     tag "$name"
-    container "dukegcb/trim-galore:latest"
+    container "denom/trim-galore:latest"
     cpus 4
     memory 8.GB
 
