@@ -157,7 +157,7 @@ process trim_galore {
     tag "$name"
     container "dukegcb/trim-galore:latest"
     cpus 2
-    memory 16.GB
+    memory 8.GB
 
 publishDir "${params.output}/trim_galore", mode: 'copy',
         saveAs: {filename ->
@@ -178,6 +178,8 @@ publishDir "${params.output}/trim_galore", mode: 'copy',
     
         """
         trim_galore --paired --fastqc --gzip --length 25 $read1 $read2
+        rename _val_1.fq.gz _trimmed_R1.fq.gz *
+        rename _val_2.fq.gz _trimmed_R2.fq.gz *
         """
     }
 
