@@ -138,7 +138,7 @@ process FilterUncorrectable {
     set file(read1), file(read2) from correctedReads
 
     output:
-    set val(name), file("unfixrm*R1.fq.gz"), file("unfixrm*R2.fq.gz") into correctedFilteredReads mode flatten
+    set val(name), file("un*R1.cor.fq.gz"), file("un*R2.cor.fq.gz") into correctedFilteredReads mode flatten
 
     script:
    	name = read1.toString() - ~/(.R1)?(_R1)?(_1)?(_trimmed)?(\.cor)?(\.fq)?(\.fastq)?(\.gz)?$/ 
