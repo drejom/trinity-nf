@@ -170,7 +170,7 @@ publishDir "${params.output}/trim_galore", mode: 'copy',
     set val(name), file(read1), file(read2) from correctedFilteredReads
 
     output:
-    set val(name), file("*R1.fq.gz"), file("*R2.fq.gz") into filteredCorrectedTrimmedReads mode flatten
+    set val(name), file("*R1.cor_trimmed.fq.gz"), file("*R2.cor_trimmed.fq.gz") into filteredCorrectedTrimmedReads mode flatten
     file "*trimming_report.txt" into trimgalore_results
 
 
