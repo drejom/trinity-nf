@@ -207,9 +207,9 @@ process filter_rRNA {
     file bt2_indices
     
     output:
-    set val(name), file("*_paired_unaligned_*R1.fq.gz"), file("*_paired_unaligned_*R2.fq.gz") into cleanReads_fastqc mode flatten
-    set val("pair1"), file("*_paired_unaligned_*R1.fq.gz") into cleanReads_forward
-    set val("pair2"), file("*_paired_unaligned_*R2.fq.gz") into cleanReads_reverse
+    set val(name), file("*1_rRNA_paired_unaligned.fq.gz"), file("*2_rRNA_paired_unaligned.fq.gz") into cleanReads_fastqc mode flatten
+    set val("pair1"), file("*1_rRNA_paired_unaligned.fq.gz") into cleanReads_forward
+    set val("pair2"), file("*2_rRNA_paired_unaligned.fq.gz") into cleanReads_reverse
 
     script:
     index_base = index.toString() - '.fa'
@@ -217,10 +217,10 @@ process filter_rRNA {
         """
         bowtie2 --quiet --very-sensitive-local --phred33  --threads ${task.cpus} \\
         -x $index_base  -1 $read1 -2 $read2  --met-file ${name}_bowtie2_metrics.txt \\
-        --al-conc-gz blacklist_paired_aligned_${name}_%.fq.gz \\
-        --un-conc-gz rRNA_paired_unaligned_${name}_%.fq.gz  \\
-        --al-gz blacklist_unpaired_aligned_${name}.fq.gz \\
-        --un-gz blacklist_unpaired_unaligned_${name}.fq.gz
+        --al-conc-gz ${name}_%_blacklist_paired_aligned.fq.gz \\
+        --un-conc-gz ${name}_%_rRNA_paired_unaligned.fq.gz  \\
+        --al-gz ${name}_blacklist_unpaired_aligned.fq.gz \\
+        --un-gz ${name}_blacklist_unpaired_unaligned.fq.gz
         bowtie2 --version        
         """
     }
