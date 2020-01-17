@@ -102,7 +102,7 @@ process fastqc_raw_reads {
 process rCorrector {
     tag "all_reads"
     container "quay.io/biocontainers/rcorrector:1.0.4--h8b12597_1"
-    cpus 28
+    cpus 16
     memory 40.GB
     time = 12.h
     publishDir "${params.output}/rCorrector_reads", mode: 'copy'
@@ -144,6 +144,7 @@ process FilterUncorrectable {
         name = read1.toString() - ~/(.R1)?(_R1)?(_1)?(_trimmed)?(\.cor)?(\.fq)?(\.fastq)?(\.gz)?$/ 
 
         """
+        chmod a+x $workflow.projectDir/bin/FilterUncorrectabledPEfastq.py 
         python2 $workflow.projectDir/bin/FilterUncorrectabledPEfastq.py -1 $read1 -2 $read2 -s $name
         gzip *.fq
         """
@@ -155,8 +156,8 @@ process FilterUncorrectable {
  */
 process trim_galore {
     tag "$name"
-    container "denom/trim-galore:latest"
-    cpus 4
+    container "quay.io/biocontainers/trim-galore:0.6.5--0"
+    cpus 2
     memory 8.GB
 
 publishDir "${params.output}/trim_galore", mode: 'copy',
@@ -175,9 +176,19 @@ publishDir "${params.output}/trim_galore", mode: 'copy',
 
 
     script:
-    
+        // Calculate number of --cores for TrimGalore based on value of task.cpus
+        // See: https://github.com/FelixKrueger/TrimGalore/blob/master/Changelog.md#version-060-release-on-1-mar-2019
+        // See: https://github.com/nf-core/atacseq/pull/65
+        
+        def cores = 1
+        if (task.cpus) {
+            cores = (task.cpus as int) - 4
+            if (cores < 1) cores = 1
+            if (cores > 4) cores = 4
+        }
+        
         """
-        trim_galore --cores ${task.cpus} --paired --fastqc --gzip --length 25 $read1 $read2
+        trim_galore  --paired --fastqc --gzip --length 25 $read1 $read2
         """
     }
 
@@ -255,8 +266,8 @@ process fastqc_cleaned_reads {
 process trinity {
     tag "Assembly"
     container "trinityrnaseq/trinityrnaseq:2.8.6"
-    cpus 40
-    memory 120.GB
+    cpus 20
+    memory 80.GB
     time = 48.h
 
     publishDir "${params.output}/trinity", mode: 'copy',
